@@ -14,7 +14,7 @@ function getPricingURL(currentCurrency: string, nativeCurrency: string) {
    * @param nativeCurrency - Symbol for base asset
    * @returns Promise resolving to exchange rate for given currency
    */
-export async function fetchExchangeRate(currency: string, nativeCurrency: string): Promise<{ conversionDate: number; conversionRate: number }> {
+export async function fetchExchangeRate(currency: string, nativeCurrency: string): Promise<number> {
   const json = await handleFetch(getPricingURL(currency, nativeCurrency));
   const conversionRate = Number(json[currency.toUpperCase()]);
 
@@ -22,8 +22,5 @@ export async function fetchExchangeRate(currency: string, nativeCurrency: string
     throw new Error(`Invalid response for ${currency.toUpperCase()}: ${json[currency.toUpperCase()]}`);
   }
 
-  return {
-    conversionDate: Date.now() / 1000,
-    conversionRate,
-  };
+  return conversionRate;
 }
